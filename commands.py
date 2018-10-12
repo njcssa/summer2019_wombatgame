@@ -1,3 +1,4 @@
+import time
 class Commands:
     def __init__(self, wombat):
         self.wombat = wombat
@@ -431,7 +432,9 @@ class Commands:
         
 
     def run(self):
+        time.sleep(10)
         #self.screen_saver()
-        self.walk_place_diagonally(3, 1)
-        self.walk_place_diagonally(3, 0)
+        self.make_b()
+        #self.walk_place_diagonally(3, 1)
+        #self.walk_place_diagonally(3, 0)
         
