@@ -1,3 +1,20 @@
+#####################################################################################################################################################################
+# ideas
+# - wombat move until can't
+# - wombat make a walk around the edge of the screen
+# - make wombat make a checkered pattern on the screen with leaves
+# - take coord inputs in a list and place leaves in those spots using function we made to go to any coord
+# - wombat spiral inwards with leaves in increasing numbers to center of screen from edge
+# - make wombat go over hill with height of 1 rock
+# - make wombat create rectangle of certain dimensions
+# - make wombat create pyramid/triangle of certain base width
+
+
+
+#####################################################################################################################################################################
+
+
+
 import time
 class Commands:
     def __init__(self, wombat):
@@ -7,25 +24,8 @@ class Commands:
         bob.leaves = 1000
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+######################################################################################################################################################################
+# little helper functions developed in class
 
     def turn_right(self):
         bob.turn_left()
@@ -65,28 +65,137 @@ class Commands:
 
       #return leaves
 
+    def walk_x_times(self, x):
+        for i in range(0, x):
+            bob.walk()
+
+
+    def walk_and_place(self, x):
+        for i in range(0, x):
+            bob.place_leaf()
+            bob.walk()
+
+    def walk_place_diagonally(self, x, dir):
+        for i in range(0, x):
+            bob.place_leaf()
+            if dir == 1:
+                self.turn_x_dir(1)
+                bob.walk()
+                self.turn_x_dir(0)
+                bob.walk()
+            elif dir == 2:
+                self.turn_x_dir(2)
+                bob.walk()
+                self.turn_x_dir(1)
+                bob.walk()
+            elif dir == 3:
+                self.turn_x_dir(3)
+                bob.walk()
+                self.turn_x_dir(2)
+                bob.walk()
+            elif dir == 0:
+                self.turn_x_dir(0)
+                bob.walk()
+                self.turn_x_dir(3)
+                bob.walk()
+
 
 ########################################################################################################################
-# ideas
-# - wombat move until can't
-# - wombat make a walk around the edge of the screen
-# - make wombat make a checkered pattern on the screen with leaves
-# - take coord inputs in a list and place leaves in those spots using function we made to go to any coord
+# wombat moves until he can't anymore
+
+    # this will show how wombat can hurt itself if it runs into a wall
+    def move_until_broken(self):
+        i = 0
+        while i < 20:
+            bob.walk()
+            i += 1
+
+
+    def move_until_cant(self):
+        while bob.can_move():
+            bob.walk()
 
 
 ########################################################################################################################
-# wombat spiral inwards to center of screen
+# walk around edge of screen - assumes wombat starts in top left corner
+# each function shows gradual improvement - uses functions made before
+
+    def walk_edge_1(self):
+        while bob.can_move():
+            bob.walk()
+        self.turn_right()
+        while bob.can_move():
+            bob.walk()
+        self.turn_right()
+        while bob.can_move():
+            bob.walk()
+        self.turn_right()
+        while bob.can_move():
+            bob.walk()
+        self.turn_right()
+
+    def walk_edge_2(self):
+        i = 0
+        while i < 4:
+            while bob.can_move():
+                bob.walk()
+            self.turn_right()
+            i += 1
+
+    def walk_edge_3(self):
+        for i in range(0, 4):
+            self.move_until_cant()
+            self.turn_right()
 
 
 ########################################################################################################################
-# this will have the wombat go over a hill with 1 width
+# wombat makes a checkered pattern on the screen
+# assumes starting in top left corner
 
+    def make_checkered_row(self):
+        steps = 0
+        while bob.can_move():
+            if steps % 2 == 0:
+                bob.place_leaf()
+            bob.walk()
+            steps += 1
+
+    def make_checkered_pattern(self):
+        rows = 0
+        while rows < 12:
+            self.make_checkered_row()
+            self.turn_x_dir(2)
+            if rows < 11: # add this later after students see problem with code - makes it so wombat doesn't hit wall on last row
+                bob.walk()
+            if rows % 2 == 0:
+                self.turn_x_dir(3)
+            else:
+                self.turn_x_dir(1)
+            rows += 1
 
 ########################################################################################################################
-# this will have the wombat place leaves in increasing bunches with them touching until the wombat can't move anymore
-# from the starting position. The movement will be determined by randint.
+# make wombat place leaves at specific coordinate locations
 
+    # explain that wombat is pretty blind and can only detect where walls are - therefore he has to go to walls to orient himself and
+    # he cannot tell what space he is on - that's why this function is useful
+    def goto_x_y(self, x, y):
+        self.turn_x_dir(3)
+        while bob.can_move():
+            bob.walk()
+        self.turn_x_dir(0)
+        while bob.can_move():
+            bob.walk()
+        self.turn_x_dir(1)
+        for i in range(x):
+            bob.walk()
+        self.turn_x_dir(2)
+        for k in range(y):
+            bob.walk()
 
+    def place_leaves_at_coords(self, coords):
+        for i in range(0, len(coords)):
+            self.goto_x_y(coords[i][0], coords[i][1])
+            bob.place_leaf()
 
 
 
@@ -115,7 +224,7 @@ class Commands:
 
 
 #######################################################################################################################
-
+# mountains solution
 # wombat needs to have 0 leaves to start and go in the bottom right corner
 
 
@@ -235,87 +344,8 @@ class Commands:
             print("end")
              
         
-#######################################################################################################################
-    # bob.walk(), bob.turn_left(), bob.can_move(), bob.facing_north()
-    
-    # def turn_right(self):
-    #     bob.turn_left()
-    #     bob.turn_left()
-    #     bob.turn_left()
-
-    # def turn_left_x_times(self, x):
-    #     pass
-
-    def walk_x_times(self, x):
-        for i in range(0, x):
-            bob.walk()
-
-    # def turn_x_dir(self, x):
-    #     while not bob.facing_north():
-    #         bob.turn_left()
-
-    #     if x == 3:
-    #         bob.turn_left()
-    #     elif x == 2:
-    #         bob.turn_left()
-    #         bob.turn_left()
-    #     elif x == 1:
-    #         bob.turn_left()
-    #         bob.turn_left()
-    #         bob.turn_left()
-
-    # def make_x_big_square(self, x):
-    #     bear = 0
-    #     while bear < 4:
-    #         self.walk_x_times(x-1)
-    #         bob.turn_left()
-    #         bear += 1
-
-    def walk_and_place(self, x):
-        for i in range(0, x):
-            bob.place_leaf()
-            bob.walk()
-
-    def walk_place_diagonally(self, x, dir):
-        for i in range(0, x):
-            bob.place_leaf()
-            if dir == 1:
-                self.turn_x_dir(1)
-                bob.walk()
-                self.turn_x_dir(0)
-                bob.walk()
-            elif dir == 2:
-                self.turn_x_dir(2)
-                bob.walk()
-                self.turn_x_dir(1)
-                bob.walk()
-            elif dir == 3:
-                self.turn_x_dir(3)
-                bob.walk()
-                self.turn_x_dir(2)
-                bob.walk()
-            elif dir == 0:
-                self.turn_x_dir(0)
-                bob.walk()
-                self.turn_x_dir(3)
-                bob.walk()
-
-
-    def goto_x_y(self, x, y):
-        self.turn_x_dir(2)
-        while bob.can_move():
-            bob.walk()
-        self.turn_x_dir(3)
-        while bob.can_move():
-            bob.walk()
-        self.turn_x_dir(1)
-        for i in range(x):
-            bob.walk()
-        self.turn_x_dir(0)
-        for k in range(y):
-            bob.walk()
-
-
+################################################################################################################################
+# makes the letter B out of leaves
 
     def make_b(self):
         self.turn_x_dir(0)
@@ -352,7 +382,8 @@ class Commands:
         bob.walk()
         self.walk_and_place(4)
         
-
+##############################################################################################################################################
+# eats all the leaves on the screen by going row to row
 
     def row(self):
         while bob.can_move():
@@ -375,6 +406,11 @@ class Commands:
                     bob.turn_left()
                     bob.walk()
                     bob.turn_left()
+
+############################################################################################################################################
+# bouncing ball effect with placing leaves
+# breaks when in corner
+
 
     def screen_saver(self):
         direction = 1
@@ -410,31 +446,9 @@ class Commands:
                     direction = 3
 
 
-    
-
-
-
-    def screen_saver2(self):
-        direction = 1
-        while bob.has_leaf():
-            self.walk_place_diagonally(1, direction)
-            if direction == 1:
-                self.turn_x_dir(0)
-                if not bob.can_move():
-                    direction = 2
-                self.turn_x_dir(1)
-                if not bob.can_move():
-                    direction = 0
-            elif direction == 2:
-                pass
-
-        
+###################################################################################################################################################################  
         
 
     def run(self):
-        time.sleep(10)
-        #self.screen_saver()
-        self.make_b()
-        #self.walk_place_diagonally(3, 1)
-        #self.walk_place_diagonally(3, 0)
+        self.goto_x_y(10, 7)
         

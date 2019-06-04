@@ -21,9 +21,11 @@ class World:
             self.random_leaves()
             self.random_rocks()
         elif setup == 3:
-            self.setup_3()
+            self.one_wall()
+        elif setup == 4:
+            self.maze()
         elif setup == 10:
-            self.setup_10()
+            self.mountains()
 
 
     def get_grid_background(self):
@@ -71,7 +73,7 @@ class World:
             self.tile_objects.append(rock_image)
 
 
-    def setup_3(self):
+    def one_wall(self):
         x = randint(3, 12)
         y = 12
         height = randint(2, 9)
@@ -81,7 +83,41 @@ class World:
             self.tile_objects.append(rock_image)
 
 
-    def setup_10(self):
+    def maze(self):
+        startx = 7
+        starty = 5
+        leaf_num = 1
+        # 0-up, 1-right, 2-down, 3-left
+        while (startx > 0 and startx < 15) and (starty > 0 and starty < 11):
+            currentx = startx
+            currenty = starty
+            iterations = 0
+            while self.something_on_spot(currentx, currenty):
+                currentx = startx
+                currenty = starty
+                direction = randint(0, 3)
+                if direction == 0:
+                    currenty -= 1
+                elif direction == 1:
+                    currentx += 1
+                elif direction == 2:
+                    currenty += 1
+                elif direction == 3:
+                    currentx -= 1
+                iterations += 1
+                if iterations > 50:
+                    break
+            if iterations > 50:
+                break
+            # breaks used when random leaf placement is not possible(ex. surrounded on all sides)
+            startx = currentx
+            starty = currenty
+            self.tile_objects.append(Leaf(self.leaf_img, startx, starty, leaf_num))
+            leaf_num += 1
+
+
+
+    def mountains(self):
         # need to setup wombat in main at the bottom left corner
         final_height = 0
         for i in range(4, 16):
