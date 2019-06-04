@@ -24,6 +24,10 @@ class World:
             self.one_wall()
         elif setup == 4:
             self.maze()
+        elif setup == 5:
+            self.even_leaves()
+        elif setup == 6:
+            self.small_wall()
         elif setup == 10:
             self.mountains()
 
@@ -116,6 +120,12 @@ class World:
             leaf_num += 1
 
 
+    def even_leaves(self):
+        for i in range(16):
+            self.tile_objects.append(Leaf(self.leaf_img, i, 0, randint(1, 10)))
+
+    def small_wall(self):
+        self.tile_objects.append(Rock(self.rock_img, randint(0, 15), 11))
 
     def mountains(self):
         # need to setup wombat in main at the bottom left corner

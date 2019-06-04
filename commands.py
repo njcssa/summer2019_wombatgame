@@ -146,7 +146,21 @@ class Commands:
         for i in range(0, 4):
             self.move_until_cant()
             self.turn_right()
+########################################################################################################################
+# pick up all leaves in row which have an even number and leave piles with odd numbers
+# use world setup 5
 
+    def pick_even_leaves(self):
+        amount_on_spot = 0
+        while bob.can_move():
+            while bob.found_leaf():
+                bob.pick_leaf()
+                amount_on_spot += 1
+            if not amount_on_spot % 2 == 0:
+                for i in range(amount_on_spot):
+                    bob.place_leaf()
+            amount_on_spot = 0
+            bob.walk()
 
 ########################################################################################################################
 # wombat makes a checkered pattern on the screen
@@ -175,6 +189,7 @@ class Commands:
 
 ########################################################################################################################
 # make wombat place leaves at specific coordinate locations
+# test coordinate list: [[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]]
 
     # explain that wombat is pretty blind and can only detect where walls are - therefore he has to go to walls to orient himself and
     # he cannot tell what space he is on - that's why this function is useful
@@ -229,7 +244,7 @@ class Commands:
 
 ########################################################################################################################
 # wombat climbs over a 1 tall mountain
-# need to use specific world setup for this problem
+# need to use setup 6
 # start wombat in lower left corner
 
         
@@ -242,6 +257,7 @@ class Commands:
         self.turn_x_dir(2)
         bob.walk()
         self.turn_x_dir(1)
+        self.move_until_cant()
 
 ########################################################################################################################
 # wombat climbs over random height mountain
@@ -255,7 +271,7 @@ class Commands:
             self.turn_x_dir(0)
             bob.walk()
             self.turn_x_dir(1)
-
+        self.walk_x_times(2)
         self.turn_x_dir(2)
         self.move_until_cant()
         self.turn_x_dir(1)
@@ -632,6 +648,7 @@ class Commands:
         
 
     def run(self):
-        #time.sleep(3)
-        self.follow_waypoint_coords([[5, 0], [10, 10], [4, 2], [15, 11]])
+        time.sleep(3)
+        self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
+        #pass
         
