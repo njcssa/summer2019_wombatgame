@@ -197,6 +197,94 @@ class Commands:
             self.goto_x_y(coords[i][0], coords[i][1])
             bob.place_leaf()
 
+########################################################################################################################
+# make wombat create a spiral of leaves inwards
+
+    def one_loop(self, xsize, ysize, num_leaf):
+        for i in range(2):
+            for i in range(xsize-1):
+                self.place_x_leaves(num_leaf)
+                bob.walk()
+            self.turn_right()
+            for i in range(ysize-1):
+                self.place_x_leaves(num_leaf)
+                bob.walk()
+            self.turn_right()
+        self.turn_x_dir(1)
+        bob.walk()
+        self.turn_x_dir(2)
+        bob.walk()
+        self.turn_x_dir(1)
+
+    def spiral(self):
+        xsize = 16
+        ysize = 12
+        leaf_amount = 1
+        while ysize > 1:
+            self.one_loop(xsize, ysize, leaf_amount)
+            xsize -= 2
+            ysize -= 2
+            leaf_amount += 1
+            
+
+########################################################################################################################
+# wombat climbs over a 1 tall mountain
+# need to use specific world setup for this problem
+# start wombat in lower left corner
+
+        
+    def climb_over_hill(self):
+        self.move_until_cant()
+        self.turn_x_dir(0)
+        bob.walk()
+        self.turn_x_dir(1)
+        self.walk_x_times(2)
+        self.turn_x_dir(2)
+        bob.walk()
+        self.turn_x_dir(1)
+
+########################################################################################################################
+# wombat climbs over random height mountain
+# need to use specific world setup for this problem
+# start wombat in lower left corner
+
+
+    def climb_over_n_wall(self):
+        self.move_until_cant()
+        while not bob.can_move():
+            self.turn_x_dir(0)
+            bob.walk()
+            self.turn_x_dir(1)
+
+        self.turn_x_dir(2)
+        self.move_until_cant()
+        self.turn_x_dir(1)
+        self.move_until_cant()
+
+
+
+########################################################################################################################
+# create rectangle of certain dimensions
+# start wombat in upper left corner
+
+    def create_rectangle(self, xsize, ysize):
+        for i in range(ysize):
+            if i % 2 == 0:
+                for j in range(xsize):
+                    bob.place_leaf()
+                    bob.walk()
+            else:
+                while bob.can_move():
+                    bob.place_leaf()
+                    bob.walk()
+                bob.place_leaf()
+            self.turn_x_dir(2)
+            bob.walk()
+            if i % 2 == 0:
+                self.turn_x_dir(3)
+                bob.walk()
+            else:
+                self.turn_x_dir(1)
 
 
 ########################################################################################################################
@@ -450,5 +538,5 @@ class Commands:
         
 
     def run(self):
-        self.goto_x_y(10, 7)
+        self.create_rectangle(2, 5)
         
