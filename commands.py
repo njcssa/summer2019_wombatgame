@@ -288,6 +288,100 @@ class Commands:
 
 
 ########################################################################################################################
+# create triangle of certain base width
+# start wombat in upper left corner
+
+    def calculate_num_rows(self, basesize):
+        rows = 0
+        while basesize >= 1:
+            rows += 1
+            basesize -= 2
+        return rows
+
+    def make_triangle(self, basesize):
+        self.turn_x_dir(2)
+        num_rows = self.calculate_num_rows(basesize)
+        self.walk_x_times(num_rows)
+        self.turn_x_dir(1)
+        current_row = 0
+        while basesize >= 1:
+            if current_row % 2 == 0:
+                self.walk_and_place(basesize)
+                self.turn_x_dir(0)
+                bob.walk()
+                self.turn_x_dir(3)
+                self.walk_x_times(2)
+                basesize -= 2
+                current_row += 1
+            else:
+                self.walk_and_place(basesize)
+                self.turn_x_dir(0)
+                bob.walk()
+                self.turn_x_dir(1)
+                self.walk_x_times(2)
+                basesize -= 2
+                current_row += 1
+
+########################################################################################################################
+# make wombat follow a list of coordinates on a path and place leaf on every square
+# assumes wombat starts in top left corner
+# test coords list: [[1, 0], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 5], [4, 5], [5, 5], [5, 6], [5, 7], [5, 8], [6, 8], [7, 8], [8, 8], [8, 9], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [12, 11], [13, 11], [14, 11], [15, 11]]
+    
+    def follow_coordinates(self, coords_list):
+        startx = 0
+        starty = 0
+        bob.place_leaf()
+        for i in range(len(coords_list)):
+            if coords_list[i][0] > startx:
+                self.turn_x_dir(1)
+                bob.walk()
+                startx += 1
+            elif coords_list[i][0] < startx:
+                self.turn_x_dir(3)
+                bob.walk()
+                startx -= 1
+            elif coords_list[i][1] > starty:
+                self.turn_x_dir(2)
+                bob.walk()
+                starty += 1
+            elif coords_list[i][1] < starty:
+                self.turn_x_dir(0)
+                bob.walk()
+                starty -= 1
+            bob.place_leaf()
+    
+
+########################################################################################################################
+# make wombat follow a path of coordinates which has gaps in it
+# assumes wombat starts in top left corner
+# test coords: [[5, 0], [10, 10], [4, 2], [15, 11]]
+
+    def follow_waypoint_coords(self, coords_list):
+        startx = 0
+        starty = 0
+        for i in range(len(coords_list)):
+            dx = coords_list[i][0] - startx
+            dy = coords_list[i][1] - starty
+
+            if dx > 0:
+                self.turn_x_dir(1)
+                self.walk_and_place(dx)
+            elif dx < 0:
+                self.turn_x_dir(3)
+                self.walk_and_place(-1*dx)
+            
+            if dy > 0:
+                self.turn_x_dir(2)
+                self.walk_and_place(dy)
+            elif dy < 0:
+                self.turn_x_dir(0)
+                self.walk_and_place(-1*dy)
+            
+            startx = coords_list[i][0]
+            starty = coords_list[i][1]
+
+
+########################################################################################################################
 
 # gets wombat to clean up all of the random leaves on the board
 
@@ -538,5 +632,6 @@ class Commands:
         
 
     def run(self):
-        self.create_rectangle(2, 5)
+        #time.sleep(3)
+        self.follow_waypoint_coords([[5, 0], [10, 10], [4, 2], [15, 11]])
         
