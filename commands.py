@@ -398,6 +398,19 @@ class Commands:
 
 
 ########################################################################################################################
+# have wombat sort a row of randomly placed leaves
+# have to use a specific setup
+# assumes wombat starts in top left corner
+
+
+
+########################################################################################################################
+# wombat places stacks of leaves corresponding to the product of the coordinates
+
+
+
+
+########################################################################################################################
 
 # gets wombat to clean up all of the random leaves on the board
 

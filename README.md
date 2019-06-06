@@ -7,7 +7,7 @@ This is an updated version of [this repository](https://github.com/benjaminnow/w
 
 ## Basic Info About The Wombat
 - pretty much blind so has to count the steps it moves to keep track of where it is
-- by default it's only movements are walking one step in the direction it is facing and turning left (therefore to turn right it needs to make 3 left turns)
+- by default its only movements are walking one step in the direction it is facing and turning left (therefore to turn right it needs to make 3 left turns)
 - can pick up leaves
 - can drop leaves
 - can check it is next to a wall or a rock
