@@ -14,8 +14,8 @@ wombat_img = pygame.transform.scale(wombat_img, (50, 50))
 
 # creating objects
 wombat = Wombat(wombat_img, 0, 0) # num params are for starting location
-delay = 0.05 # amount of time delay
-world = World(screen.get_size(), wombat, screen, delay, 0)
+delay = 0.00 # amount of time delay
+world = World(screen.get_size(), wombat, screen, delay, 7)
 commands = Commands(wombat)
 # add some variables to wombat
 wombat.world = world

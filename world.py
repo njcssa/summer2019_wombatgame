@@ -28,6 +28,8 @@ class World:
             self.even_leaves()
         elif setup == 6:
             self.small_wall()
+        elif setup == 7:
+            self.row_to_be_sorted()
         elif setup == 10:
             self.mountains()
 
@@ -126,6 +128,18 @@ class World:
 
     def small_wall(self):
         self.tile_objects.append(Rock(self.rock_img, randint(0, 15), 11))
+
+    def row_to_be_sorted(self):
+        stack_list = []
+        for i in range(16):
+            rand_num = randint(1, 32)
+            while rand_num in stack_list:
+                rand_num = randint(1, 32)
+            stack_list.append(rand_num)
+        
+        for i in range(len(stack_list)):
+            self.tile_objects.append(Leaf(self.leaf_img, i, 0, stack_list[i]))
+            self.tile_objects.append(Leaf(self.leaf_img, i, 1, stack_list[i]))
 
     def mountains(self):
         # need to setup wombat in main at the bottom left corner

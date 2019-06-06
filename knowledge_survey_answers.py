@@ -49,6 +49,25 @@ def age_commenter(age):
         print("you are a senior citizen")
 
 
+# 5
+# make a program which loops through the numbers 1-100
+# if the number it is on is divisible by 3 and 5 print "fizzbuzz"
+# if the number it is on is divisible by 3 print "fizz"
+# if the number it is on is divisible by 5 print "buzz"
+# if the number is not divisible by 3 and 5 then print the number
+
+def fizzbuzz():
+    for i in range(1, 101):
+        if i % 3 == 0 and i % 5 == 0:
+            print("fizzbuzz")
+        elif i % 3 == 0:
+            print("fizz")
+        elif i % 5 == 0:
+            print("buzz")
+        else:
+            print(i)
+
+
 
 
 
@@ -71,6 +90,8 @@ def main():
     #           "you are a teenager and an adult"
     #           "you are an adult"
     #           "you are a senior citizen"
+    # 5 -> prints 1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz ......
+    
 
 
     # uncomment lines below to run them
@@ -91,5 +112,8 @@ def main():
     # age_commenter(18)
     # age_commenter(50)
     # age_commenter(90)
-    
+
+    # 5
+    # fizzbuzz()
+
     pass

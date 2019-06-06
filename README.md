@@ -87,6 +87,9 @@ coords list: [[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]]
 15 base size
 ![](/gifs/triangle15.gif)
 
+### Wombat Bubble Sorts a row
+![](/gifs/bubblesort.gif)
+sorry, it takes a while
 
 
 

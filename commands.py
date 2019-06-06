@@ -63,7 +63,7 @@ class Commands:
             bob.place_leaf()
             i += 1
 
-      #return leaves
+        return leaves
 
     def walk_x_times(self, x):
         for i in range(0, x):
@@ -398,10 +398,73 @@ class Commands:
 
 
 ########################################################################################################################
-# have wombat sort a row of randomly placed leaves
+# have wombat bubble sort a row of randomly placed leaves
 # have to use a specific setup
 # assumes wombat starts in top left corner
 
+    def count_leaves_on_spot(self):
+        leaves = 0
+        while bob.found_leaf():
+            bob.pick_leaf()
+            leaves += 1
+        return leaves
+
+    def bubble_sort(self):
+        for i in range(16-1):
+            for j in range(16-i-1): 
+                before = self.count_leaves_on_spot()
+                bob.walk()
+                later = self.count_leaves_on_spot()
+                if before > later:
+                    self.turn_x_dir(3)
+                    bob.walk()
+                    self.place_x_leaves(later)
+                    self.turn_x_dir(1)
+                    bob.walk()
+                    self.place_x_leaves(before)
+                else:
+                    self.turn_x_dir(3)
+                    bob.walk()
+                    self.place_x_leaves(before)
+                    self.turn_x_dir(1)
+                    bob.walk()
+                    self.place_x_leaves(later)
+            self.turn_x_dir(3)
+            self.move_until_cant()
+            self.turn_x_dir(1)
+
+
+########################################################################################################################
+# have the wombat selection sort a row of randomly stacked leaves
+# have to use a specific setup
+# challenge prob - can most instructors even do this?
+
+# todo: find bug
+
+
+
+    def selection_sort(self):
+        for i in range(16-1):
+            self.walk_x_times(i)
+            min_leaves = self.count_leaves_on_spot() # picks up leaves also
+            leaves_first_spot = min_leaves
+            min_leaves_index = i
+            for j in range(16-i-1):
+                bob.walk()
+                current_leaves = self.leaves_on_spot() # puts the leaves back down
+                if current_leaves < min_leaves:
+                    min_leaves = current_leaves
+                    min_leaves_index = j + i + 1
+            print(min_leaves, min_leaves_index)
+            self.turn_x_dir(3)
+            self.walk_x_times(15-min_leaves_index)
+            self.pick_all_leaves_on_spot()
+            self.place_x_leaves(leaves_first_spot)
+            self.walk_x_times(min_leaves_index-i)
+            self.place_x_leaves(min_leaves)
+            self.move_until_cant()
+            self.turn_x_dir(1)
+            
 
 
 ########################################################################################################################
@@ -661,7 +724,9 @@ class Commands:
         
 
     def run(self):
-        time.sleep(3)
-        self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
+        #time.sleep(3)
+        #self.bubble_sort()
+        self.selection_sort()
+        #self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
         #pass
         
