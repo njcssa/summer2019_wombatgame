@@ -89,7 +89,12 @@ coords list: [[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]]
 
 ### Wombat Bubble Sorts a row
 ![](/gifs/bubblesort.gif)
+
 sorry, it takes a while
 
+### Wombat Selection Sorts a row
+![](/gifs/selectionsort.gif)
+
+again, it takes a while
 
 
