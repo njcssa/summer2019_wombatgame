@@ -72,9 +72,11 @@ coords list: [[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]]
 
 ### Making a rectangle with custom dimensions
 2x2
+
 ![](/gifs/create_rect_2x2.gif)
 
 3x5
+
 ![](/gifs/create_rect_3x5.gif)
 
 ### Making a spiral
@@ -97,4 +99,5 @@ sorry, it takes a while
 
 again, it takes a while
 
-
+### Making a multiplication table
+![](/gifs/multiplicationgrid.gif)

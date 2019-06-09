@@ -479,13 +479,74 @@ class Commands:
             
 ########################################################################################################################
 # better selection sort
+# bugs: doesn't work on last stack, stack at 1 index doesn't work
 
+
+    def create_list_stacks(self):
+        stack_list = []
+        for i in range(15):
+            stack_list.append(self.leaves_on_spot())
+            bob.walk()
+        stack_list.append(self.leaves_on_spot()) # for last spot
+        self.turn_x_dir(3)
+        self.move_until_cant()
+        self.turn_x_dir(1)
+        return stack_list
+
+    def find_minimum_index(self, start_index, stack_list):
+        minimum_index = start_index
+        minimum_value = stack_list[minimum_index]
+        for i in range(start_index, len(stack_list)):
+            if stack_list[i] < minimum_value:
+                minimum_value = stack_list[i]
+                minimum_index = i
+        return minimum_index
+
+    def better_selection_sort(self):
+        stack_list = self.create_list_stacks()
+        current_stack_index = 0
+        while current_stack_index < 16:
+            # code to update wombat game
+            minimum_index = self.find_minimum_index(current_stack_index, stack_list)
+            first_spot_stack = self.count_leaves_on_spot()
+            self.walk_x_times(minimum_index-current_stack_index)
+            second_spot_stack = self.count_leaves_on_spot()
+            self.place_x_leaves(first_spot_stack)
+            self.turn_x_dir(3)
+            self.walk_x_times(minimum_index-current_stack_index)
+            self.place_x_leaves(second_spot_stack)
+            self.turn_x_dir(1)
+            if current_stack_index < 15: # so doesn't break on last index
+                bob.walk()
+            
+            # code to update stack_list
+            temp = stack_list[current_stack_index]
+            stack_list[current_stack_index] = stack_list[minimum_index]
+            stack_list[minimum_index] = temp
+            current_stack_index += 1
 
 
 ########################################################################################################################
 # wombat places stacks of leaves corresponding to the product of the coordinates
 
-
+    
+    def multiplication_grid(self):
+        startx = 0
+        starty = 0
+        for i in range(12):
+            for j in range(15):
+                self.place_x_leaves(startx*starty)
+                bob.walk()
+                startx += 1
+            self.place_x_leaves(startx*starty) # last spot
+            if i < 11: # for last row
+                self.turn_x_dir(3)
+                self.move_until_cant()
+                self.turn_x_dir(2)
+                bob.walk()
+                self.turn_x_dir(1)
+                startx = 0
+                starty += 1
 
 
 ########################################################################################################################
@@ -739,9 +800,9 @@ class Commands:
         
 
     def run(self):
-        time.sleep(3)
+        #time.sleep(3)
         #self.bubble_sort()
-        self.selection_sort()
+        self.better_selection_sort()
         #self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
         #pass
         
