@@ -550,6 +550,72 @@ class Commands:
 
 
 ########################################################################################################################
+# wombat goes through all the doors to the other side
+# use setup 8 and start wombat in top left corner
+
+    def find_door(self):
+        # assumes at top
+        while not bob.can_move():
+            self.turn_x_dir(2)
+            bob.walk()
+            self.turn_x_dir(1)
+
+    def doors1(self):
+        doors = 0
+        while doors < 8:
+            self.find_door()
+            if doors < 7:
+                self.walk_x_times(2)
+            else:
+                bob.walk()
+            doors += 1
+            if doors < 7:
+                self.turn_x_dir(0)
+                self.move_until_cant()
+                self.turn_x_dir(1)
+
+
+########################################################################################################################
+# wombat goes through all the doors that have 1 leaf to the other side
+# use setup 9 and start wombat in top left corner
+
+    def find_door2(self):
+        self.find_door()
+        bob.walk()
+        leaves_on_spot = self.leaves_on_spot()
+        if leaves_on_spot == 1:
+            return True
+        else:
+            self.turn_x_dir(3)
+            bob.walk()
+            self.turn_x_dir(2)
+            bob.walk()
+            self.turn_x_dir(1)
+            return False
+
+    def doors2(self):
+        doors = 0
+        while doors < 8:
+            if self.find_door2():
+                if doors < 7:
+                    bob.walk()
+            else:
+                self.find_door()
+                if doors < 7:
+                    self.walk_x_times(2)
+                else:
+                    bob.walk()
+            if doors < 7:
+                self.turn_x_dir(0)
+                self.move_until_cant()
+                self.turn_x_dir(1)
+            doors += 1
+            
+            
+
+
+
+########################################################################################################################
 
 # gets wombat to clean up all of the random leaves on the board
 
@@ -800,9 +866,9 @@ class Commands:
         
 
     def run(self):
-        #time.sleep(3)
+        time.sleep(3)
         #self.bubble_sort()
-        self.better_selection_sort()
         #self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
+        self.doors2()
         #pass
         

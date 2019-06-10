@@ -101,3 +101,9 @@ again, it takes a while
 
 ### Making a multiplication table
 ![](/gifs/multiplicationgrid.gif)
+
+### Going through randomly generated doors
+![](/gifs/doors1.gif)
+
+### Only going through doors with 1 leaf
+![](/gifs/doors2.gif)

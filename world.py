@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from time import sleep
-from random import randint
+from random import randint, sample
 from leaf import Leaf
 from rock import Rock
 
@@ -30,6 +30,10 @@ class World:
             self.small_wall()
         elif setup == 7:
             self.row_to_be_sorted()
+        elif setup == 8:
+            self.doors()
+        elif setup == 9:
+            self.doors2()
         elif setup == 10:
             self.mountains()
 
@@ -152,6 +156,40 @@ class World:
             if i == 15:
                 final_height = height
         self.tile_objects.append(Leaf(self.leaf_img, i, 11-final_height, 1))
+
+    def doors(self):
+        opening_locations = []
+        for i in range(8):
+            opening_locations.append(randint(0, 11))
+        wall_location_index = 1
+        for loc in opening_locations:
+            for y in range(12):
+                if y != loc:
+                    self.tile_objects.append(Rock(self.rock_img, wall_location_index, y))
+            wall_location_index += 2
+
+    
+    def doors2(self):
+        opening_locations = []
+        for i in range(8):
+            doors = []
+            random_num = randint(1, 10)
+            if random_num <= 5:
+                doors = [1, 2]
+            else:
+                doors = [2, 1]
+            opening_locations.append([sample(range(0, 12), 2), doors])
+        wall_location_index = 1
+        for x in range(len(opening_locations)):
+            for y in range(12):
+                if y != opening_locations[x][0][0] and y != opening_locations[x][0][1]:
+                    self.tile_objects.append(Rock(self.rock_img, wall_location_index, y))
+                if y == opening_locations[x][0][0]:
+                    self.tile_objects.append(Leaf(self.leaf_img, wall_location_index, y, opening_locations[x][1][0]))
+                elif y == opening_locations[x][0][1]:
+                    self.tile_objects.append(Leaf(self.leaf_img, wall_location_index, y, opening_locations[x][1][1]))
+            wall_location_index += 2
+
 
 
     def display_tile_objects(self):
