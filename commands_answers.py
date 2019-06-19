@@ -146,6 +146,95 @@ class Commands:
         for i in range(0, 4):
             self.move_until_cant()
             self.turn_right()
+
+
+########################################################################################################################
+# walk over to a pile of 10 leaves and pick them all up
+# use setup 11 
+
+    def pick_ten(self):
+        while not bob.found_leaf():
+            bob.walk()
+        while bob.found_leaf():
+            bob.pick_leaf()
+
+########################################################################################################################
+# pick up all leaf piles in a row
+# use setup 12
+
+    def row_leaf_piles(self):
+        while bob.can_move():
+            while not bob.found_leaf() and bob.can_move():
+                bob.walk()
+            while bob.found_leaf():
+                bob.pick_leaf()
+        
+########################################################################################################################
+# pick up all leaf piles in a row only if there are more than 5 leaves in the pile
+# use setup 5
+
+    def greater_than_five(self):
+        while bob.can_move():
+            leaf_count = 0
+            while bob.found_leaf():
+                bob.pick_leaf()
+                leaf_count += 1
+            if leaf_count < 5:
+                while leaf_count > 0:
+                    bob.place_leaf()
+                    leaf_count -= 1
+            bob.walk()
+        leaf_count = 0
+        while bob.found_leaf():
+            bob.pick_leaf()
+            leaf_count += 1
+        if leaf_count < 5:
+            while leaf_count > 0:
+                bob.place_leaf()
+                leaf_count -= 1
+
+    # better way - create a function
+
+    def count_five(self):
+        leaf_count = 0
+        while bob.found_leaf():
+            bob.pick_leaf()
+            leaf_count += 1
+        if leaf_count <= 5:
+            while leaf_count > 0:
+                bob.place_leaf()
+                leaf_count -= 1
+    
+    def greater_than_five2(self):
+        while bob.can_move():
+            self.count_five()
+            bob.walk()
+        self.count_five()
+
+
+########################################################################################################################
+# pick stacks with even leaves and add 1 leaf to stacks with odd numbers of leaves
+# use setup 5
+
+    def picking_helper(self):
+        amount_on_spot = 0
+        while bob.found_leaf():
+            bob.pick_leaf()
+            amount_on_spot += 1
+        if not amount_on_spot % 2 == 0:
+            while amount_on_spot > 0:
+                bob.place_leaf()
+                amount_on_spot -= 1
+            bob.place_leaf()
+
+
+    def pick_even_add_one(self):
+        while bob.can_move():
+            self.picking_helper()
+            bob.walk()
+        self.picking_helper()
+
+
 ########################################################################################################################
 # pick up all leaves in row which have an even number and leave piles with odd numbers
 # use world setup 5
@@ -612,7 +701,12 @@ class Commands:
             doors += 1
             
             
+########################################################################################################################
+# wombat takes user input to play tic tac toe with another user
 
+
+########################################################################################################################
+# the wombat can check itself which user won the tic tac toe match
 
 
 ########################################################################################################################
@@ -867,8 +961,6 @@ class Commands:
 
     def run(self):
         time.sleep(3)
-        #self.bubble_sort()
-        #self.place_leaves_at_coords([[15, 11], [0, 0], [1, 1], [4, 3], [10, 7]])
-        self.doors2()
+        self.pick_even_add_one()
         #pass
         

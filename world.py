@@ -36,6 +36,10 @@ class World:
             self.doors2()
         elif setup == 10:
             self.mountains()
+        elif setup == 11:
+            self.stack_ten()
+        elif setup == 12:
+            self.leaf_pile_row()
 
 
     def get_grid_background(self):
@@ -189,6 +193,17 @@ class World:
                 elif y == opening_locations[x][0][1]:
                     self.tile_objects.append(Leaf(self.leaf_img, wall_location_index, y, opening_locations[x][1][1]))
             wall_location_index += 2
+
+    
+    def stack_ten(self):
+        self.tile_objects.append(Leaf(self.leaf_img, randint(0, 15), 0, 10))
+
+    
+    def leaf_pile_row(self):
+        for i in range(0, 16):
+            random = randint(1, 10)
+            if random <= 3:
+                self.tile_objects.append(Leaf(self.leaf_img, i, 0, randint(1, 10)))
 
 
 
