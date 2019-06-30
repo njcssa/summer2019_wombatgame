@@ -3,22 +3,29 @@ from pygame.locals import *
 from leaf import Leaf
 from rock import Rock
 
+import subprocess
+output = subprocess.Popen('xrandr | grep "\*" | cut -d" " -f4',shell=True, stdout=subprocess.PIPE).communicate()[0]
+resolution_x, resolution_y = output.decode("utf-8").split("x")[0], output.decode("utf-8").split("x")[1]
+pygame_y = int(resolution_y) - 200.0
+pygame_x = int(pygame_y) / 12.0 * 16.0
+
+
 
 class Wombat:
 
     def __init__(self, img, x, y):
         self.img = img
-        self.x = x * 50
-        self.y = y * 50
+        self.x = x * int(pygame_x / 16.0)
+        self.y = y * int(pygame_y / 16.0)
         self.dir = 1
         self.leaves = 0
-        self.leaf_img = pygame.transform.scale(pygame.image.load('leaf.png'), (48, 48))
+        self.leaf_img = pygame.transform.scale(pygame.image.load('leaf.png'), (int(pygame_x / 16.0)-2, int(pygame_y / 12.0)-2))
         self.broken = False
 
 
     def change_to_broken_image(self):
         broken_img = pygame.image.load('ball.png')
-        broken_img = pygame.transform.scale(broken_img, (50, 50))
+        broken_img = pygame.transform.scale(broken_img, (int(pygame_x / 16.0), int(pygame_y / 12.0)))
         self.img = broken_img
         self.world.display()
 
@@ -69,25 +76,25 @@ class Wombat:
 
         for obj in self.tile_objects:
             if self.dir == 0:
-                if self.x == obj.x and self.y-50 == obj.y and isinstance(obj, Rock):
+                if self.x == obj.x and self.y-int(pygame_y / 12.0) == obj.y and isinstance(obj, Rock):
                     return False
             elif self.dir == 1:
-                if self.x+50 == obj.x and self.y == obj.y and isinstance(obj, Rock):
+                if self.x+int(pygame_x / 16.0) == obj.x and self.y == obj.y and isinstance(obj, Rock):
                     return False
             elif self.dir == 2:
-                if self.x == obj.x and self.y+50 == obj.y and isinstance(obj, Rock):
+                if self.x == obj.x and self.y+int(pygame_y / 12.0) == obj.y and isinstance(obj, Rock):
                     return False
             elif self.dir == 3:
-                if self.x-50 == obj.x and self.y == obj.y and isinstance(obj, Rock):
+                if self.x-int(pygame_x / 16.0) == obj.x and self.y == obj.y and isinstance(obj, Rock):
                     return False
         
-        if self.x / 50 == 15 and self.dir == 1:
+        if self.x / int(pygame_x / 16.0) == 15 and self.dir == 1:
             return False
-        elif self.x / 50 == 0 and self.dir == 3:
+        elif self.x / int(pygame_x / 16.0) == 0 and self.dir == 3:
             return False
-        elif self.y / 50 == 11 and self.dir == 2:
+        elif self.y / int(pygame_y / 12.0) == 11 and self.dir == 2:
             return False
-        elif self.y / 50 == 0 and self.dir == 0:
+        elif self.y / int(pygame_y / 12.0) == 0 and self.dir == 0:
             return False
         else:
             return True
@@ -122,7 +129,7 @@ class Wombat:
                     in_tile_list = True
                     
             if not in_tile_list:
-                self.tile_objects.append(Leaf(self.leaf_img, self.x/50, self.y/50, 1))
+                self.tile_objects.append(Leaf(self.leaf_img, int(self.x/int(pygame_x / 16.0)), int(self.y/int(pygame_y / 12.0)), 1))
         else:
             self.broken = True
             self.change_to_broken_image()
@@ -139,13 +146,13 @@ class Wombat:
             self.change_to_broken_image()
         else:
             if self.dir == 0:
-                self.y -= 50
+                self.y -= int(pygame_y / 12.0)
             elif self.dir == 1:
-                self.x += 50
+                self.x += int(pygame_x / 16.0)
             elif self.dir == 2:
-                self.y += 50
+                self.y += int(pygame_y / 12.0)
             elif self.dir == 3:
-                self.x -= 50
+                self.x -= int(pygame_x / 16.0)
         self.world.display()
 
 

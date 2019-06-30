@@ -960,7 +960,7 @@ class Commands:
         
 
     def run(self):
-        time.sleep(3)
-        self.pick_even_add_one()
+        #time.sleep(3)
+        self.multiplication_grid()
         #pass
         

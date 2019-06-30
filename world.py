@@ -6,13 +6,15 @@ from leaf import Leaf
 from rock import Rock
 
 class World:
-    def __init__(self, size, wombat, screen, delay, setup):
+    def __init__(self, size, wombat, screen, pygame_x, pygame_y, delay, setup):
         self.size = size #tuple (width, height)
         self.wombat = wombat
         self.screen = screen
+        self.square_x = int(pygame_x / 16.0)
+        self.square_y = int(pygame_y / 12.0)
         self.delay = delay
-        self.leaf_img = pygame.transform.scale(pygame.image.load('leaf.png'), (48, 48))
-        self.rock_img = pygame.transform.scale(pygame.image.load('rock.png'), (50, 50))
+        self.leaf_img = pygame.transform.scale(pygame.image.load('leaf.png'), (self.square_x-2, self.square_y-2))
+        self.rock_img = pygame.transform.scale(pygame.image.load('rock.png'), (self.square_x-2, self.square_y-2))
         self.tile_objects = []
         # setup 0 is a clean board
         if setup == 1:
@@ -52,9 +54,9 @@ class World:
 
         for i in range(0, colnum):
             for j in range(0, rownum):
-                x = i * 50
-                y = j * 50
-                pygame.draw.rect(background, (0, 0, 0), (x, y, 50, 50), 1)
+                x = i * self.square_x
+                y = j * self.square_x
+                pygame.draw.rect(background, (0, 0, 0), (x, y, self.square_x, self.square_y), 1)
 
         background.blit(self.wombat.img, (self.wombat.x, self.wombat.y))
 
@@ -63,7 +65,7 @@ class World:
 
     def something_on_spot(self, x, y):
         for obj in self.tile_objects:
-            if obj.x == x*50 and obj.y == y*50:
+            if obj.x == x*self.square_x and obj.y == y*self.square_y:
                 return True
         return False
 
@@ -72,7 +74,7 @@ class World:
         # used for setup 1 where wombat collects all the leaves on the board
         for i in range(0, 25):
             chosen_x_y = [randint(0, 15), randint(0, 11)]
-            while (chosen_x_y[0]*50 == self.wombat.x and chosen_x_y[1]*50 == self.wombat.y) or self.something_on_spot(chosen_x_y[0], chosen_x_y[1]):
+            while (chosen_x_y[0]*self.square_x == self.wombat.x and chosen_x_y[1]*self.square_y == self.wombat.y) or self.something_on_spot(chosen_x_y[0], chosen_x_y[1]):
                 chosen_x_y = [randint(0, 15), randint(0, 11)]
             leaf_image = Leaf(self.leaf_img, chosen_x_y[0], chosen_x_y[1], randint(1, 10))
             self.tile_objects.append(leaf_image)
@@ -81,7 +83,7 @@ class World:
     def random_rocks(self):
         for i in range(0, 10):
             chosen_x_y = [randint(0, 15), randint(0, 11)]
-            while (chosen_x_y[0]*50 == self.wombat.x and chosen_x_y[1]*50 == self.wombat.y) or self.something_on_spot(chosen_x_y[0], chosen_x_y[1]):
+            while (chosen_x_y[0]*self.square_x == self.wombat.x and chosen_x_y[1]*self.square_y == self.wombat.y) or self.something_on_spot(chosen_x_y[0], chosen_x_y[1]):
                 chosen_x_y = [randint(0, 15), randint(0, 11)]
             rock_image = Rock(self.rock_img, chosen_x_y[0], chosen_x_y[1])
             self.tile_objects.append(rock_image)

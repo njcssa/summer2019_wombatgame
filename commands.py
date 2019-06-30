@@ -7,6 +7,15 @@ class Commands:
         bob = self.wombat # change name to whatever you want
         bob.leaves = 1000
 
+    def turn_right(self):
+        bob.turn_left()
+        bob.turn_left()
+        bob.turn_left()
+
+        
+
+    
+
     def run(self):
         pass
         
