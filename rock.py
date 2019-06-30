@@ -2,9 +2,9 @@ import pygame
 from pygame.locals import *
 import subprocess
 output = subprocess.Popen('xrandr | grep "\*" | cut -d" " -f4',shell=True, stdout=subprocess.PIPE).communicate()[0]
-resolution_x, resolution_y = output.decode("utf-8").split("x")[0], output.decode("utf-8").split("x")[1]
-pygame_y = int(resolution_y) - 200.0
-pygame_x = int(pygame_y) / 12.0 * 16.0
+resolution_x, resolution_y = int(output.decode("utf-8").split("x")[0]), int(output.decode("utf-8").split("x")[1])
+pygame_y = resolution_y - int(resolution_y / 5)
+pygame_x = pygame_y / 12.0 * 16.0
 
 class Rock:
     def __init__(self, img, x, y):
