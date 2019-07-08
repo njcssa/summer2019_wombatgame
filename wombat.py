@@ -16,7 +16,7 @@ class Wombat:
     def __init__(self, img, x, y):
         self.img = img
         self.x = x * int(pygame_x / 16.0)
-        self.y = y * int(pygame_y / 16.0)
+        self.y = y * int(pygame_y / 12.0)
         self.dir = 1
         self.leaves = 0
         self.leaf_img = pygame.transform.scale(pygame.image.load('leaf.png'), (int(pygame_x / 16.0)-2, int(pygame_y / 12.0)-2))

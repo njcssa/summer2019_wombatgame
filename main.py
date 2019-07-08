@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from world import World
 from wombat import Wombat
-from commands_answers import Commands
+from commands import Commands
 # from commands import Commands - only use this for student version
 #from commands import Commands
 from time import sleep
@@ -22,9 +22,9 @@ wombat_img = pygame.transform.scale(wombat_img, (int(pygame_x / 16.0), int(pygam
 
 
 # creating objects
-wombat = Wombat(wombat_img, 0, 0) # num params are for starting location
-delay = 0.00 # amount of time delay
-setup = 7 # setup of world
+wombat = Wombat(wombat_img, 0, 1) # num params are for starting location
+delay = 0.5 # amount of time delay
+setup = 0 # setup of world
 world = World(screen.get_size(), wombat, screen, pygame_x, pygame_y, delay, setup)
 commands = Commands(wombat)
 # add some variables to wombat
