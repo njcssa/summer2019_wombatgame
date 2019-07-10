@@ -118,13 +118,11 @@ add2(add2(1, 1), add2(4, 2))
 # print the returned list
 
 def get_evens(start, end):
-    evens_list = []
-    i = start
-    while i < end:
-        evens_list.append(i)
-        i += 2
-    return evens_list
-
+    evens = []
+    for i in range(start, end):  
+        if i % 2 == 0:
+            evens.append(i)
+    return evens
 print(get_evens(2, 19))
 
 
